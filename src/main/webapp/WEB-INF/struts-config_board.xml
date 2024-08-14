@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+	<!-- Form Bean Definitions -->
+	<form-beans>
+		<form-bean name="boardForm" type="struts.board.form.BoardForm" />
+	</form-beans>
+
+	<action-mappings>
+		<action path="/board" type="struts.board.action.BoardListAction" 
+			name="boardForm" scope="request" parameter="method">
+			<forward name="list" path="/board/board_list.jsp" />
+		</action>
+		<action path="/board/write" type="struts.board.action.BoardWriteAction"
+			name="boardForm" scope="request" parameter="method">
+			<forward name="write" path="/board/board_write.jsp"/>
+		</action>
+		<action path="/board/update" type="struts.board.action.BoardUpdateAction"
+			name="boardForm" scope="request" parameter="method">
+			<forward name="update" path="/board/board_update.jsp"/>
+			<forward name="view" redirect="true" path="/board.do?post=boardNo"/>
+		</action>
+		<action path="/board/delete" type="struts.board.action.BoardDeleteAction"
+			name="boardForm" scope="request" parameter="method">
+		</action>
+		<action path="/board/view" type="struts.board.action.BoardViewAction"
+			name="boardForm" scope="request" parameter="method">
+			<forward name="view" path="/board/board_view.jsp"/>
+		</action>
+	</action-mappings>
+
+	<!-- Message Resources Definitions -->
+
+	<!-- Plug Ins Configuration -->
+	<controller processorClass="struts.kor.KorRequestProcessor" />
+
+</struts-config>
