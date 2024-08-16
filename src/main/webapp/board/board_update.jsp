@@ -45,15 +45,22 @@
 					document.body.appendChild(form);
 					form.submit();
 				}
+				
+				function deleteImage() {
+					event.preventDefault();
+					let postImage = document.getElementById("delete-image"); 
+					postImage.remove();
+				}
 
 				document.querySelector('button[value="저장"]').addEventListener("click", updatePost);
+				document.querySelector('div[id="post_image"]').addEventListener("click", updatePost);
 			});
 		</script>
 	</head>
 	<body>
 		<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
 			<%@ include file="./sidebar.jsp" %>
-			<div class="mdl-layout__content" style="width: 1000px">
+			<div class="mdl-layout__content">
 				<div class="wrapper">
 					<form action="" method="post" name="myForm" id="postForm">
 						<div class="mdl-grid">
@@ -63,7 +70,7 @@
 								name="title"
 								id="title"
 								maxlength="100"
-								class="mdl-cell mdl-cell--7-col mdl-textfield__input"
+								class="mdl-cell mdl-cell--4-col mdl-textfield__input"
 								value="${item.title}" />
 						</div>
 						<div class="mdl-grid">
@@ -73,7 +80,7 @@
 								name="name"
 								id="name"
 								maxlength="20"
-								class="mdl-cell mdl-cell--4-col mdl-textfield__input"
+								class="mdl-cell mdl-cell--2-col mdl-textfield__input"
 								value="${item.name}"
 								disabled="disabled" />
 						</div>
@@ -83,13 +90,32 @@
 								rows="12"
 								cols="63"
 								name="content"
-								class="mdl-cell mdl-cell--7-col mdl-textfield__input"
+								class="mdl-cell mdl-cell--5-col mdl-textfield__input"
 								id="content">
 ${item.content}</textarea
 							>
 						</div>
+						<c:if test="${file.extension eq 'jpg'
+										|| file.extension eq 'png'
+										|| file.extension eq 'gif'
+										|| file.extension eq 'jpeg'
+										|| file.extension eq 'bmp'}">
+							<div class="mdl-grid" id="post_image">
+								<label for="content" class="mdl-cell mdl-cell--1-col">첨부파일</label>
+       							<img 
+       							src="${pageContext.request.contextPath}/${file.localPath}" 
+       							alt="첨부 이미지" 
+       							class="mdl-cell mdl-cell--4-col"/>
+       							<button type="button" 
+       									class="mdl-button mdl-js-button"
+       									id="deleteImage"
+       									onclick="deleteImage">
+       								<i class="material-icons">delete</i>
+       							</button>
+							</div>
+						</c:if>
 						<div class="mdl-grid">
-							<div class="mdl-cell mdl-cell--3-col mdl-cell--6-offset">
+							<div class="mdl-cell mdl-cell--3-col mdl-cell--4-offset">
 								<button
 									value="저장"
 									class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect"

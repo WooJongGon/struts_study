@@ -71,7 +71,7 @@ request.getContextPath(); %>
 	<body>
 		<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
 			<%@ include file="./sidebar.jsp" %>
-			<div class="mdl-layout__content" style="width: 1000px">
+			<div class="mdl-layout__content">
 				<div class="wrapper">
 					<form action="" method="post" name="myForm" id="postForm">
 						<div class="mdl-grid">
@@ -82,7 +82,7 @@ request.getContextPath(); %>
 								id="title"
 								readonly="readonly"
 								maxlength="100"
-								class="mdl-cell mdl-cell--7-col mdl-textfield__input"
+								class="mdl-cell mdl-cell--4-col mdl-textfield__input"
 								value="${item.title}" />
 						</div>
 						<div class="mdl-grid">
@@ -93,7 +93,7 @@ request.getContextPath(); %>
 								id="name"
 								readonly="readonly"
 								maxlength="20"
-								class="mdl-cell mdl-cell--4-col mdl-textfield__input"
+								class="mdl-cell mdl-cell--2-col mdl-textfield__input"
 								value="${item.name}" />
 						</div>
 						<div class="mdl-grid">
@@ -102,7 +102,7 @@ request.getContextPath(); %>
 								rows="12"
 								cols="63"
 								name="content"
-								class="mdl-cell mdl-cell--7-col mdl-textfield__input"
+								class="mdl-cell mdl-cell--5-col mdl-textfield__input"
 								id="content"
 								readonly="readonly">
 ${item.content}</textarea
@@ -118,11 +118,11 @@ ${item.content}</textarea
        							<img 
        							src="${pageContext.request.contextPath}/${file.localPath}" 
        							alt="첨부 이미지" 
-       							class="mdl-cell mdl-cell--6-col"/>
+       							class="mdl-cell mdl-cell--4-col"/>
 							</div>
 						</c:if>
 						<div class="mdl-grid">
-							<div class="mdl-cell mdl-cell--3-col mdl-cell--5-offset">
+							<div class="mdl-cell mdl-cell--3-col mdl-cell--4-offset">
 								<button
 									type="button"
 									value="수정"

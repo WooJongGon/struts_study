@@ -48,7 +48,7 @@ request.getContextPath(); %>
 	<body>
 		<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
 			<%@ include file="./sidebar.jsp" %>
-			<div class="mdl-layout__content" style="width: 1000px">
+			<div class="mdl-layout__content">
 				<div class="wrapper">
 					<form action="" method="post" name="myForm" id="postForm" enctype="multipart/form-data">
 						<div class="mdl-grid">
@@ -59,7 +59,7 @@ request.getContextPath(); %>
 								id="title"
 								placeholder="제목을 입력해주세요."
 								maxlength="100"
-								class="mdl-cell mdl-cell--7-col mdl-textfield__input" />
+								class="mdl-cell mdl-cell--3-col mdl-textfield__input" />
 						</div>
 						<div class="mdl-grid">
 							<label for="name" class="mdl-cell mdl-cell--1-col">작성자</label>
@@ -69,7 +69,7 @@ request.getContextPath(); %>
 								id="name"
 								placeholder="이름을 입력해주세요."
 								maxlength="20"
-								class="mdl-cell mdl-cell--4-col mdl-textfield__input" />
+								class="mdl-cell mdl-cell--2-col mdl-textfield__input" />
 						</div>
 						<div class="mdl-grid">
 							<label for="pwd" class="mdl-cell mdl-cell--1-col">비밀번호</label>
@@ -79,7 +79,7 @@ request.getContextPath(); %>
 								id="pwd"
 								placeholder="비밀번호를 입력해주세요."
 								maxlength="50"
-								class="mdl-cell mdl-cell--4-col mdl-textfield__input" />
+								class="mdl-cell mdl-cell--2-col mdl-textfield__input" />
 						</div>
 						<div class="mdl-grid">
 							<label for="content" class="mdl-cell mdl-cell--1-col">내용</label>
@@ -87,7 +87,7 @@ request.getContextPath(); %>
 								rows="12"
 								cols="63"
 								name="content"
-								class="mdl-cell mdl-cell--7-col mdl-textfield__input"
+								class="mdl-cell mdl-cell--5-col mdl-textfield__input"
 								id="content"></textarea>
 						</div>
 						<div class="mdl-grid">
@@ -96,10 +96,10 @@ request.getContextPath(); %>
 								name="image"
 								id="image"
 								maxlength="50"
-								class="mdl-cell mdl-cell--4-col mdl-textfield__input" />
+								class="mdl-cell mdl-cell--4-col" />
 						</div>
 						<div class="mdl-grid">
-							<div class="mdl-cell mdl-cell--3-col mdl-cell--6-offset">
+							<div class="mdl-cell mdl-cell--3-col mdl-cell--5-offset">
 								<button
 									type="button"
 									value="등록"

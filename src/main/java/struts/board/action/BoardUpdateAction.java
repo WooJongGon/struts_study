@@ -13,6 +13,7 @@ import org.apache.struts.actions.DispatchAction;
 
 import struts.board.dao.BoardUpdateDAO;
 import struts.board.form.BoardForm;
+import struts.board.form.FileForm;
 import struts.util.PostgresqlConnector;
 
 public class BoardUpdateAction extends DispatchAction {
@@ -54,7 +55,7 @@ public class BoardUpdateAction extends DispatchAction {
 		PostgresqlConnector.close();
 		
 		if(validate) {
-			return update(mapping, param, request, response);
+			return viewPost(mapping, param, request, response);
 		}else {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
@@ -65,18 +66,24 @@ public class BoardUpdateAction extends DispatchAction {
 		}
 	}
 	
-	private ActionForward update(ActionMapping mapping, BoardForm param,
+	private ActionForward viewPost(ActionMapping mapping, BoardForm param,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception{
 		Connection conn = PostgresqlConnector.getConnection();
 		BoardUpdateDAO dao = new BoardUpdateDAO(conn);
+		FileForm file = new FileForm();
 		
 		int boardNo = param.getBoardNo();
 		
 		BoardForm item = dao.selectPost(boardNo);
 		
+		if(item.getFileNo() > 0) {
+			file = dao.selectFile(item.getFileNo());
+		}
+		
 		request.setAttribute("item", item);
 		request.setAttribute("pageName", "게시글 수정");
+		request.setAttribute("file", file);
 		
 		PostgresqlConnector.close();
 		

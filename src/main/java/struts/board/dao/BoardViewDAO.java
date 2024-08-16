@@ -87,7 +87,6 @@ public class BoardViewDAO {
 			System.out.println(e.toString());
 		}
 		
-		
 		return result;
 	}
 	
