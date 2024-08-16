@@ -10,10 +10,10 @@ public class PostgresqlConnector {
 	private static Connection dbconn = null;
 	
 	public static Connection getConnection() {
-		String dbDriver = "";
-		String dbUrl = "";
-		String dbUser = "";
-		String dbPassword = "";
+		String dbDriver = System.getProperty("DB_DRIVER");
+		String dbUrl = System.getProperty("DB_URL");
+		String dbUser = System.getProperty("DB_USER");
+		String dbPassword = System.getProperty("DB_PASSWORD");
 		
 		Connection connection = null;
 		
