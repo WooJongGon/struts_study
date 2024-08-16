@@ -1,7 +1,6 @@
 package struts.board.form;
 
 import org.apache.struts.action.ActionForm;
-import org.apache.struts.upload.FormFile;
 
 public class FileForm extends ActionForm{
 
@@ -12,7 +11,6 @@ public class FileForm extends ActionForm{
 	private String fileOrigin;
 	private String localPath;
 	private String extension;
-	private FormFile image;
 	
 	public int getFileNo() {
 		return fileNo;
@@ -42,14 +40,6 @@ public class FileForm extends ActionForm{
 		return fileOrigin;
 	}
 	
-	public FormFile getImage() {
-		return image;
-	}
-
-	public void setImage(FormFile image) {
-		this.image = image;
-	}
-
 	public void setFileOrigin(String fileOrigin) {
 		this.fileOrigin = fileOrigin;
 	}

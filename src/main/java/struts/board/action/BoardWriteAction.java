@@ -1,10 +1,8 @@
 package struts.board.action;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +15,7 @@ import org.apache.struts.upload.FormFile;
 
 import struts.board.dao.BoardWriteDAO;
 import struts.board.form.BoardForm;
+import struts.util.FileManger;
 import struts.util.PostgresqlConnector;
 
 public class BoardWriteAction extends DispatchAction {
@@ -57,32 +56,14 @@ public class BoardWriteAction extends DispatchAction {
 		int fileNo = -1;
 		
 		BoardForm param = (BoardForm)form;
-		
 		FormFile imageFile = param.getImage();
-		String imagePath = null;
 		
         if (imageFile != null && !imageFile.getFileName().isEmpty()) {
-            String filePath = getServlet().getServletContext().getRealPath("/") + "uploads";
-            System.out.println(filePath);
-
-            File folder = new File(filePath);
-            if (!folder.exists()) {
-                folder.mkdir();
-            }
-
-            String fileName = System.currentTimeMillis() + "_" + imageFile.getFileName();
-            File file = new File(filePath, fileName);
-            try (InputStream stream = imageFile.getInputStream();
-                 FileOutputStream out = new FileOutputStream(file)) {
-                int bytesRead;
-                byte[] buffer = new byte[1024];
-                while ((bytesRead = stream.read(buffer)) != -1) {
-                    out.write(buffer, 0, bytesRead);
-                }
-            }
-            imagePath = "uploads/" + fileName;
-            fileNo = dao.insertFile(fileName, imageFile.getFileName(), imagePath);
-            
+        	Map<String, String> imageInfo = null;
+        	String filePath = getServlet().getServletContext().getRealPath("/") + "uploads";
+        	
+        	imageInfo = FileManger.upload(imageFile, filePath);
+        	fileNo = dao.insertFile(imageInfo);
         }
         
 		int boardNo = dao.insertData(param, fileNo);

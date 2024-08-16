@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.Map;
 
 import struts.board.form.BoardForm;
 
@@ -69,11 +70,10 @@ public class BoardWriteDAO {
 		return boardNo;
 	}
 	
-	public int insertFile(String fileName, String fileOrigin, String filePath) {
+	public int insertFile(Map<String, String> fileInfo) {
 		
 		ResultSet rs = null;
 		int fileNo = 0;
-		int extensionIdx = fileOrigin.lastIndexOf(".");
 		
 		PreparedStatement pstmt = null;
 		String sql;
@@ -84,10 +84,10 @@ public class BoardWriteDAO {
 			
 			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
-			pstmt.setString(1, fileName);
-			pstmt.setString(2, fileOrigin);
-			pstmt.setString(3, filePath);
-			pstmt.setString(4, fileOrigin.substring(extensionIdx + 1));
+			pstmt.setString(1, fileInfo.get("fileName"));
+			pstmt.setString(2, fileInfo.get("fileOrigin"));
+			pstmt.setString(3, fileInfo.get("localPath"));
+			pstmt.setString(4, fileInfo.get("extension"));
 			
 			int result = pstmt.executeUpdate();
 			
