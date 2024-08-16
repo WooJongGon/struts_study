@@ -8,6 +8,7 @@
 
 	<!--  Form Bean Definitions -->
     <form-beans>
+    	<form-bean name="fileForm" type="struts.board.form.FileForm"></form-bean>
 	</form-beans>
 
 	<!--  Global Exception Definitions -->

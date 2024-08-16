@@ -1,5 +1,8 @@
 package struts.board.action;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
 
@@ -10,6 +13,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.upload.FormFile;
 
 import struts.board.dao.BoardWriteDAO;
 import struts.board.form.BoardForm;
@@ -25,7 +29,7 @@ public class BoardWriteAction extends DispatchAction {
 		if(param.getMode() == null) {
 			return write(mapping, param, request, response);
 		}else if(param.getMode().equals("I")) {
-			return save(mapping, param, request, response);
+			return save(mapping, form, request, response);
 		}else {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
@@ -45,13 +49,43 @@ public class BoardWriteAction extends DispatchAction {
 		return mapping.findForward("write");
 	}
 	
-	private ActionForward save(ActionMapping mapping, BoardForm param,
+	private ActionForward save(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception{
 		Connection conn = PostgresqlConnector.getConnection();
 		BoardWriteDAO dao = new BoardWriteDAO(conn);
+		int fileNo = -1;
 		
-		int boardNo = dao.insertData(param);
+		BoardForm param = (BoardForm)form;
+		
+		FormFile imageFile = param.getImage();
+		String imagePath = null;
+		
+        if (imageFile != null && !imageFile.getFileName().isEmpty()) {
+            String filePath = getServlet().getServletContext().getRealPath("/") + "uploads";
+            System.out.println(filePath);
+
+            File folder = new File(filePath);
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+
+            String fileName = System.currentTimeMillis() + "_" + imageFile.getFileName();
+            File file = new File(filePath, fileName);
+            try (InputStream stream = imageFile.getInputStream();
+                 FileOutputStream out = new FileOutputStream(file)) {
+                int bytesRead;
+                byte[] buffer = new byte[1024];
+                while ((bytesRead = stream.read(buffer)) != -1) {
+                    out.write(buffer, 0, bytesRead);
+                }
+            }
+            imagePath = "uploads/" + fileName;
+            fileNo = dao.insertFile(fileName, imageFile.getFileName(), imagePath);
+            
+        }
+        
+		int boardNo = dao.insertData(param, fileNo);
 		
 		PostgresqlConnector.close();
 		

@@ -12,7 +12,6 @@ public class AppContextListener implements ServletContextListener {
 	    public void contextInitialized(ServletContextEvent sce) {
 	        try {
 	            String envFilePath = sce.getServletContext().getRealPath("/.env");
-	            System.out.println("Attempting to load .env file from: " + envFilePath);
 	            File envFile = new File(envFilePath);
 	            if (!envFile.exists()) {
 	                System.err.println("Error: .env file not found at " + envFilePath);

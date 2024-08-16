@@ -50,7 +50,7 @@ request.getContextPath(); %>
 			<%@ include file="./sidebar.jsp" %>
 			<div class="mdl-layout__content" style="width: 1000px">
 				<div class="wrapper">
-					<form action="" method="post" name="myForm" id="postForm">
+					<form action="" method="post" name="myForm" id="postForm" enctype="multipart/form-data">
 						<div class="mdl-grid">
 							<label for="title" class="mdl-cell mdl-cell--1-col">제목</label>
 							<input
@@ -89,6 +89,14 @@ request.getContextPath(); %>
 								name="content"
 								class="mdl-cell mdl-cell--7-col mdl-textfield__input"
 								id="content"></textarea>
+						</div>
+						<div class="mdl-grid">
+							<input
+								type="file"
+								name="image"
+								id="image"
+								maxlength="50"
+								class="mdl-cell mdl-cell--4-col mdl-textfield__input" />
 						</div>
 						<div class="mdl-grid">
 							<div class="mdl-cell mdl-cell--3-col mdl-cell--6-offset">

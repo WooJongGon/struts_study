@@ -12,6 +12,7 @@ import org.apache.struts.action.ActionMapping;
 
 import struts.board.dao.BoardViewDAO;
 import struts.board.form.BoardForm;
+import struts.board.form.FileForm;
 import struts.util.PostgresqlConnector;
 
 public class BoardViewAction extends Action {
@@ -23,12 +24,18 @@ public class BoardViewAction extends Action {
 		Connection conn = PostgresqlConnector.getConnection();
 		BoardViewDAO dao = new BoardViewDAO(conn);
 		int boardNo = Integer.parseInt(request.getParameter("post"));
+		FileForm file = new FileForm();
 		
 		BoardForm item = dao.selectPost(boardNo);
+		if(item.getFileNo() > 0) {
+			file = dao.selectFile(item.getFileNo());
+		}
+		
 		dao.updateHitCount(boardNo);
 		
 		request.setAttribute("item", item);
 		request.setAttribute("pageName", "게시글 조회");
+		request.setAttribute("file", file);
 		
 		PostgresqlConnector.close();
 		

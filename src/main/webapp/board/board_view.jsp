@@ -108,6 +108,19 @@ request.getContextPath(); %>
 ${item.content}</textarea
 							>
 						</div>
+						<c:if test="${file.extension eq 'jpg'
+										|| file.extension eq 'png'
+										|| file.extension eq 'gif'
+										|| file.extension eq 'jpeg'
+										|| file.extension eq 'bmp'}">
+							<div class="mdl-grid">
+								<label for="content" class="mdl-cell mdl-cell--1-col">첨부파일</label>
+       							<img 
+       							src="${pageContext.request.contextPath}/${file.localPath}" 
+       							alt="첨부 이미지" 
+       							class="mdl-cell mdl-cell--6-col"/>
+							</div>
+						</c:if>
 						<div class="mdl-grid">
 							<div class="mdl-cell mdl-cell--3-col mdl-cell--5-offset">
 								<button

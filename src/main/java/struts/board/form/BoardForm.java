@@ -1,6 +1,7 @@
 package struts.board.form;
 
 import org.apache.struts.action.ActionForm;
+import org.apache.struts.upload.FormFile;
 
 public class BoardForm  extends ActionForm{
 	
@@ -14,7 +15,25 @@ public class BoardForm  extends ActionForm{
 	private String created;
 	private int hitCount;
 	private String mode;
+	private int fileNo;
+	private FormFile image;
 	
+	public FormFile getImage() {
+		return image;
+	}
+
+	public void setImage(FormFile image) {
+		this.image = image;
+	}
+
+	public int getFileNo() {
+		return fileNo;
+	}
+
+	public void setFileNo(int fileNo) {
+		this.fileNo = fileNo;
+	}
+
 	public int getBoardNo() {
 		return boardNo;
 	}
