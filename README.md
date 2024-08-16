@@ -11,3 +11,6 @@
 <h4>struts 1.3.10</h4>
 <h4>jstl 1.2</h4>
 <h4>postgresql-42.6.2</h4>
+
+<h3>.env 환경 변수 파일 경로</h3>
+<h3>webapp/</h3>
