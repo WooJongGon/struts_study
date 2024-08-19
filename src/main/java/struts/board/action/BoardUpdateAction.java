@@ -2,6 +2,7 @@ package struts.board.action;
 
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,10 +11,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.upload.FormFile;
 
 import struts.board.dao.BoardUpdateDAO;
 import struts.board.form.BoardForm;
 import struts.board.form.FileForm;
+import struts.util.FileManger;
 import struts.util.PostgresqlConnector;
 
 public class BoardUpdateAction extends DispatchAction {
@@ -94,11 +97,21 @@ public class BoardUpdateAction extends DispatchAction {
 	private ActionForward updatePost(BoardForm param) throws Exception{
 		Connection conn = PostgresqlConnector.getConnection();
 		BoardUpdateDAO dao = new BoardUpdateDAO(conn);
+		int fileNo = -1;
 		
-		dao.updatePost(param);
+		FormFile imageFile = param.getImage(); 
+		
+		 if (imageFile != null && !imageFile.getFileName().isEmpty()) {
+	        	Map<String, String> imageInfo = null;
+	        	String filePath = getServlet().getServletContext().getRealPath("/") + "uploads";
+	        	
+	        	imageInfo = FileManger.upload(imageFile, filePath);
+	        	fileNo = dao.insertFile(imageInfo);
+	        }
+		
+		dao.updatePost(param, fileNo);
 		
 		PostgresqlConnector.close();
-		
 		
 		ActionForward forward = new ActionForward();
         forward.setRedirect(true);

@@ -20,30 +20,58 @@ public class BoardListAction extends Action {
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		int page = 1;
-		int pageSize = 7;
-		int totalpages = 1;
-		String searchTitle = "";
+		int page = 1; //현재 페이지
+		int pageSize = 3; //한 페이지에 보여질 게시글 수
+		int totalRows = 1; //총 게시글 수
+		int maxPage = 5; //페이지네이션 수
+		String searchTitle = ""; //검색 키워드
 		
 		if(request.getParameter("page") != null) {
-			page = Integer.parseInt(request.getParameter("page"));
+			try {
+				page = Integer.parseInt(request.getParameter("page"));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
+		
 		
 		if(request.getParameter("title") != null) {
 			searchTitle = request.getParameter("title");
 		}
+		
 		Connection conn = PostgresqlConnector.getConnection();
 		BoardListDAO dao = new BoardListDAO(conn);
 		
-		
 		List<BoardForm> lists = dao.getLists(page, pageSize, searchTitle);
-		totalpages = dao.pagination(pageSize, searchTitle);
+		totalRows = dao.pagination(pageSize, searchTitle);
 		
-		request.setAttribute("lists", lists);
-		request.setAttribute("totalPages", totalpages);
-		request.setAttribute("currentPage", page);
-		request.setAttribute("title", searchTitle);
+		int pageIdx = ((page - 1) / maxPage) + 1; //현재 페이지 블럭 인덱스
+		if(pageIdx == 0) {
+			pageIdx = 1;
+		}
+		
+		//총 블럭 갯수
+		int totalPages = totalRows % pageSize == 0 ? totalRows / pageSize : (totalRows / pageSize) + 1;
+		if(totalPages == 0) {
+			totalPages = 1;
+		}
+		
+		int start = ((pageIdx - 1) * maxPage) + 1;
+		if(start == 0) {
+			start = 1;
+		}
+		
+		int end = start + maxPage - 1;
+		if(end > totalPages) {
+			end = totalPages;
+		}
+		
 		request.setAttribute("pageName", "게시글 목록");
+		request.setAttribute("lists", lists);
+		request.setAttribute("currentPage", page);
+		request.setAttribute("totalPages", totalPages);
+		request.setAttribute("start", start);
+		request.setAttribute("end", end);
 		
 		PostgresqlConnector.close();
 		

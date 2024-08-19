@@ -3,6 +3,9 @@ package struts.board.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Types;
+import java.util.Map;
 
 import struts.board.form.BoardForm;
 import struts.board.form.FileForm;
@@ -121,28 +124,78 @@ public class BoardUpdateDAO {
 		return result;
 	}
 	
-	public void updatePost(BoardForm param) {
+	public void updatePost(BoardForm param, int fileNo) {
 		PreparedStatement pstmt = null;
 		String sql;
 		
 		try {
-			sql = "update board ";
-			sql += "set title = ?, content = ? ";
-			sql += "where board_no = ?";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, param.getTitle());
-			pstmt.setString(2, param.getContent());
-			pstmt.setInt(3, param.getBoardNo());
+			if(fileNo == -1) {
+				sql = "update board ";
+				sql += "set title = ?, content = ?, file_no = ? ";
+				sql += "where board_no = ?";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, param.getTitle());
+				pstmt.setString(2, param.getContent());
+				pstmt.setNull(3, Types.NULL);
+				pstmt.setInt(4, param.getBoardNo());
+			}else {
+				sql = "update board ";
+				sql += "set title = ?, content = ?, file_no = ? ";
+				sql += "where board_no = ?";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, param.getTitle());
+				pstmt.setString(2, param.getContent());
+				pstmt.setInt(3, fileNo);
+				pstmt.setInt(4, param.getBoardNo());
+			}
 			
 			pstmt.execute();
-			
 			pstmt.close();
 			
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
 		
+	}
+	
+	public int insertFile(Map<String, String> fileInfo) {
+		
+		ResultSet rs = null;
+		int fileNo = 0;
+		
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "insert into file(file_name, file_origin, local_path, extension)";
+			sql += "values (?, ?, ?, ?)";
+			
+			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			pstmt.setString(1, fileInfo.get("fileName"));
+			pstmt.setString(2, fileInfo.get("fileOrigin"));
+			pstmt.setString(3, fileInfo.get("localPath"));
+			pstmt.setString(4, fileInfo.get("extension"));
+			
+			int result = pstmt.executeUpdate();
+			
+			if (result > 0) {
+                rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    fileNo = rs.getInt(1); 
+                }
+            }
+			
+			pstmt.close();
+			rs.close();
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return fileNo;
 	}
 
 }

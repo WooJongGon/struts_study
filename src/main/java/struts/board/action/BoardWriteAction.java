@@ -28,7 +28,7 @@ public class BoardWriteAction extends DispatchAction {
 		if(param.getMode() == null) {
 			return write(mapping, param, request, response);
 		}else if(param.getMode().equals("I")) {
-			return save(mapping, form, request, response);
+			return save(mapping, param, request, response);
 		}else {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
@@ -48,14 +48,13 @@ public class BoardWriteAction extends DispatchAction {
 		return mapping.findForward("write");
 	}
 	
-	private ActionForward save(ActionMapping mapping, ActionForm form,
+	private ActionForward save(ActionMapping mapping, BoardForm param,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception{
 		Connection conn = PostgresqlConnector.getConnection();
 		BoardWriteDAO dao = new BoardWriteDAO(conn);
 		int fileNo = -1;
 		
-		BoardForm param = (BoardForm)form;
 		FormFile imageFile = param.getImage();
 		
         if (imageFile != null && !imageFile.getFileName().isEmpty()) {

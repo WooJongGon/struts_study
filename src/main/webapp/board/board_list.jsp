@@ -36,21 +36,22 @@
 	<body>
 		<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
 			<%@ include file="./sidebar.jsp" %>
-			<div class="mdl-layout__content" style="width: 800px">
+			<div class="mdl-layout__content">
 				<div class="mdl-gird">
-					<input
-						class="mdl-cell mdl-cell--3-col mdl-cell--8-offset mdl-textfield__input"
-						type="text"
-						id="search"
-						placeholder="제목을 입력해주세요"
-						style="display: inline-flex"
-						onkeypress="searchPostEnter(event)" />
-					<label class="mdl-button mdl-js-button mdl-button--icon" for="search">
-						<i class="material-icons" onclick="searchPost()">search</i>
-					</label>
+					<div class="mdl-cell mdl-cell--2-col mdl-cell--5-offset" style="display: inline-flex">
+						<input
+							class="mdl-textfield__input"
+							type="text"
+							id="search"
+							placeholder="제목을 입력해주세요"
+							onkeypress="searchPostEnter(event)" />
+						<label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+							<i class="material-icons" onclick="searchPost()">search</i>
+						</label>
+					</div>
 				</div>
 				<div class="mdl-grid">
-					<div class="mdl-cell mdl-cell--12-col">
+					<div class="mdl-cell mdl-cell--7-col">
 						<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%">
 							<tr class="">
 								<th class="mdl-data-table__cell--non-numeric" style="width: 50px">번호</th>
@@ -75,23 +76,23 @@
 						</table>
 					</div>
 				</div>
-				<div class="mdl-cell mdl-cell--2-col mdl-cell--10-offset">
+				<div class="mdl-cell mdl-cell--2-col mdl-cell--6-offset">
 					<button
 						class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect"
 						onclick="javascript:location.href='<%=cp%>/board/write.do';">
 						글쓰기
 					</button>
 				</div>
-				<div class="pagination">
-					<ul class="">
-						<c:if test="${currentPage > 1}">
+				<div class="pagination mdl-grid">
+					<ul class="mdl-cell mdl-cell--4-col mdl-cell--1-offset">
+						<c:if test="${start > 1}">
 							<li
 								class="mdl-button mdl-js-button"
-								onclick="javascript:location.href='<%=cp%>/board.do?page=${currentPage -1}&title=${title}';">
+								onclick="javascript:location.href='<%=cp%>/board.do?page=${start - 1}&title=${title}';">
 								<i class="material-icons">chevron_left</i>
 							</li>
 						</c:if>
-						<c:forEach begin="1" end="${totalPages}" var="i">
+						<c:forEach begin="${start}" end="${end}" var="i">
 							<c:if test="${i == currentPage}">
 								<li
 									class="mdl-button mdl-js-button mdl-button--primary"
@@ -108,10 +109,10 @@
 								</li>
 							</c:if>
 						</c:forEach>
-						<c:if test="${currentPage < totalPages}">
+						<c:if test="${end != totalPages }">
 							<li
 								class="mdl-button mdl-js-button"
-								onclick="javascript:location.href='<%=cp%>/board.do?page=${currentPage + 1}&title=${title}';">
+								onclick="javascript:location.href='<%=cp%>/board.do?page=${end + 1}&title=${title}';">
 								<i class="material-icons">chevron_right</i>
 							</li>
 						</c:if>

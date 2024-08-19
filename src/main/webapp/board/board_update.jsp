@@ -48,12 +48,22 @@
 				
 				function deleteImage() {
 					event.preventDefault();
-					let postImage = document.getElementById("delete-image"); 
+					let postImage = document.getElementById("postImage"); 
 					postImage.remove();
+					
+					let wrap = document.getElementById("imageWrap");
+					console.log(wrap);
+					let imageInput = document.createElement("input");
+					imageInput.type = "file";
+					imageInput.name = "image";
+					imageInput.id = "image";
+					imageInput.maxlength="50";
+					imageInput.class = "mdl-cell mdl-cell--4-col";
+					wrap.appendChild(imageInput);					
 				}
 
 				document.querySelector('button[value="저장"]').addEventListener("click", updatePost);
-				document.querySelector('div[id="post_image"]').addEventListener("click", updatePost);
+				document.querySelector('button[id="deleteImage"]').addEventListener("click", deleteImage);
 			});
 		</script>
 	</head>
@@ -62,7 +72,7 @@
 			<%@ include file="./sidebar.jsp" %>
 			<div class="mdl-layout__content">
 				<div class="wrapper">
-					<form action="" method="post" name="myForm" id="postForm">
+					<form action="" method="post" name="myForm" id="postForm" enctype="multipart/form-data">
 						<div class="mdl-grid">
 							<label for="title" class="mdl-cell mdl-cell--1-col">제목</label>
 							<input
@@ -95,25 +105,39 @@
 ${item.content}</textarea
 							>
 						</div>
-						<c:if test="${file.extension eq 'jpg'
-										|| file.extension eq 'png'
-										|| file.extension eq 'gif'
-										|| file.extension eq 'jpeg'
-										|| file.extension eq 'bmp'}">
-							<div class="mdl-grid" id="post_image">
-								<label for="content" class="mdl-cell mdl-cell--1-col">첨부파일</label>
-       							<img 
-       							src="${pageContext.request.contextPath}/${file.localPath}" 
-       							alt="첨부 이미지" 
-       							class="mdl-cell mdl-cell--4-col"/>
-       							<button type="button" 
-       									class="mdl-button mdl-js-button"
-       									id="deleteImage"
-       									onclick="deleteImage">
-       								<i class="material-icons">delete</i>
-       							</button>
-							</div>
-						</c:if>
+						<div id="imageWrap">
+							<c:choose>
+								<c:when test="${file.extension eq 'jpg'
+												|| file.extension eq 'png'
+												|| file.extension eq 'gif'
+												|| file.extension eq 'jpeg'
+												|| file.extension eq 'bmp'}">
+									<div class="mdl-grid" id="postImage">
+										<label for="content" class="mdl-cell mdl-cell--1-col">첨부파일</label>
+		       							<img 
+		       							src="${pageContext.request.contextPath}/${file.localPath}" 
+		       							alt="첨부 이미지" 
+		       							class="mdl-cell mdl-cell--4-col"/>
+		       							<button type="button" 
+		       									class="mdl-button mdl-js-button"
+		       									id="deleteImage"
+		       									onclick="deleteImage">
+		       								<i class="material-icons">delete</i>
+		       							</button>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<div class="mdl-grid">
+										<input
+											type="file"
+											name="image"
+											id="image"
+											maxlength="50"
+											class="mdl-cell mdl-cell--4-col" />
+									</div>
+								</c:otherwise>
+							</c:choose>
+						</div>
 						<div class="mdl-grid">
 							<div class="mdl-cell mdl-cell--3-col mdl-cell--4-offset">
 								<button

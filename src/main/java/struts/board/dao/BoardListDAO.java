@@ -74,14 +74,9 @@ public class BoardListDAO{
 			rs.close();
 			pstmt.close();
 			
-			int totalPages = (int) Math.ceil(rows * 1.0 / pageSize);
-			result = totalPages;
+			result = rows;
 		} catch (Exception e) {
 			System.out.println(e.toString());
-		}
-		
-		if (result == 0) {
-			result = 1;
 		}
 		
 		return result;
