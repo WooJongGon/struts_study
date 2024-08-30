@@ -73,13 +73,13 @@ public class BoardDAO {
 			pstmt.setString(1, "%" + searchTitle + "%");
 			rs = pstmt.executeQuery();
 			
-			rs.next();
-			int rows = rs.getInt(1);
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
 			
 			rs.close();
 			pstmt.close();
 			
-			result = rows;
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -266,6 +266,52 @@ public class BoardDAO {
 		}
 		
 		return fileNo;
+	}
+	
+	public int checkFile(int boardNo) {
+		int fileNo = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "select file_no from board where board_no = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNo);
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				fileNo = rs.getInt("file_no");
+			}
+			
+			rs.close();
+			pstmt.close();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+			
+		return fileNo;
+	}
+	
+	public void deleteFile(int fileNo) {
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "delete from file where file_no = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, fileNo);
+			
+			pstmt.execute();
+			
+			pstmt.close();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
 	}
 	
 	public boolean validatePassword(BoardForm boardForm) {

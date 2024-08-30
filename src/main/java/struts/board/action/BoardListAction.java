@@ -21,7 +21,7 @@ public class BoardListAction extends Action {
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int page = 1; //현재 페이지
-		int pageSize = 3; //한 페이지에 보여질 게시글 수
+		int pageSize = 5; //한 페이지에 보여질 게시글 수
 		int totalRows = 1; //총 게시글 수
 		int maxPage = 5; //페이지네이션 수
 		String searchTitle = ""; //검색 키워드

@@ -58,6 +58,12 @@ request.getContextPath(); %>
 					boardNoInput.name = "boardNo";
 					boardNoInput.value = "${item.boardNo}";
 					form.appendChild(boardNoInput);
+					
+					let fileNoInput = document.createElement("input");
+					fileNoInput.type = "hidden";
+					fileNoInput.name = "fileNo";
+					fileNoInput.value = "${file.fileNo}";
+					form.appendChild(fileNoInput);
 
 					document.body.appendChild(form);
 					form.submit();

@@ -42,5 +42,19 @@ public class FileManger {
         
         return result;
 	}
+	
+	public static void delete(String filePath) throws IOException {
+		File file = new File(filePath);
+		
+		if (file.exists()) {
+			try {
+				file.delete();
+				System.out.println("로컬 파일 삭제 성공");
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("로컬 파일 삭제 실패");
+			}
+		}
+	}
 
 }

@@ -15,6 +15,8 @@ import org.apache.struts.actions.DispatchAction;
 
 import struts.board.dao.BoardDAO;
 import struts.board.form.BoardForm;
+import struts.board.form.FileForm;
+import struts.util.FileManger;
 import struts.util.PostgresqlConnector;
 
 public class BoardDeleteAction extends DispatchAction {
@@ -33,7 +35,6 @@ public class BoardDeleteAction extends DispatchAction {
 		BoardDAO dao = new BoardDAO(conn);
 		
 		BoardForm param = (BoardForm)form;
-		int boardNo = param.getBoardNo();
 		
 		if(param.getBoardNo() == 0) {
 			response.setContentType("text/html; charset=UTF-8");
@@ -49,7 +50,7 @@ public class BoardDeleteAction extends DispatchAction {
 		PostgresqlConnector.close();
 		
 		if(validate) {
-            return deletePost(boardNo, request, response, mapping);
+            return deletePost(param, request, response, mapping);
 		}else {
 			response.setContentType("text/html; charset=UTF-8");
 		    PrintWriter out = response.getWriter();
@@ -60,13 +61,23 @@ public class BoardDeleteAction extends DispatchAction {
 		}
 	}
 	
-	private ActionForward deletePost(int boardNo, HttpServletRequest request, 
+	private ActionForward deletePost(BoardForm param, HttpServletRequest request, 
 									HttpServletResponse response, ActionMapping mapping) 
 									throws Exception{
 		Connection conn = PostgresqlConnector.getConnection();
 		BoardDAO dao = new BoardDAO(conn);
+		int fileNo = param.getFileNo();
 		
-		dao.deletePost(boardNo);
+		if (fileNo > 0) {
+			FileForm file = dao.selectFile(fileNo);
+
+			String filePath = getServlet().getServletContext().getRealPath("/") + "/uploads/" + file.getFileName();
+			FileManger.delete(filePath);
+			
+			dao.deleteFile(fileNo);
+		}
+		
+		dao.deletePost(param.getBoardNo());
 		
 		PostgresqlConnector.close();
 		

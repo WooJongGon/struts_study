@@ -98,16 +98,28 @@ public class BoardUpdateAction extends DispatchAction {
 		Connection conn = PostgresqlConnector.getConnection();
 		BoardDAO dao = new BoardDAO(conn);
 		int fileNo = param.getFileNo();
+		int oldFileNo = dao.checkFile(param.getBoardNo());
+		System.out.println(fileNo);
+		System.out.println(oldFileNo);
 		
 		FormFile imageFile = param.getImage(); 
 		
-		 if (imageFile != null && !imageFile.getFileName().isEmpty()) {
-		    	Map<String, String> imageInfo = null;
-		    	String filePath = getServlet().getServletContext().getRealPath("/") + "uploads";
+		if (fileNo == 0 && oldFileNo > 0) {
+			FileForm file = dao.selectFile(oldFileNo);
+			
+			String filePath = getServlet().getServletContext().getRealPath("/") + "/uploads/" + file.getFileName();
+			FileManger.delete(filePath);
+			
+			dao.deleteFile(oldFileNo);
+		}
+		
+		if (imageFile != null && !imageFile.getFileName().isEmpty()) {
+		    Map<String, String> imageInfo = null;
+		    String filePath = getServlet().getServletContext().getRealPath("/") + "uploads";
 		    	
-		    	imageInfo = FileManger.upload(imageFile, filePath);
-		    	fileNo = dao.insertFile(imageInfo);
-		 }
+		    imageInfo = FileManger.upload(imageFile, filePath);
+		    fileNo = dao.insertFile(imageInfo);
+		}
 		
 		dao.updatePost(param, fileNo);
 		
@@ -119,6 +131,5 @@ public class BoardUpdateAction extends DispatchAction {
 		
 		return forward;
 	}
-		
 
 }
