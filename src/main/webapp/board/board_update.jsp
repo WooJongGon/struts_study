@@ -124,6 +124,12 @@ ${item.content}</textarea
 		       									onclick="deleteImage">
 		       								<i class="material-icons">delete</i>
 		       							</button>
+									<input
+										type="hidden"
+										name="fileNo"
+										id="fileNo"
+										maxlength="20"
+										value="${item.fileNo}"/>
 									</div>
 								</c:when>
 								<c:otherwise>

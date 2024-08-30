@@ -13,7 +13,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.upload.FormFile;
 
-import struts.board.dao.BoardWriteDAO;
+import struts.board.dao.BoardDAO;
 import struts.board.form.BoardForm;
 import struts.util.FileManger;
 import struts.util.PostgresqlConnector;
@@ -52,8 +52,8 @@ public class BoardWriteAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception{
 		Connection conn = PostgresqlConnector.getConnection();
-		BoardWriteDAO dao = new BoardWriteDAO(conn);
-		int fileNo = -1;
+		BoardDAO dao = new BoardDAO(conn);
+		int fileNo = 0;
 		
 		FormFile imageFile = param.getImage();
 		

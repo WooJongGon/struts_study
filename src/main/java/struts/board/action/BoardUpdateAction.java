@@ -13,7 +13,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.apache.struts.upload.FormFile;
 
-import struts.board.dao.BoardUpdateDAO;
+import struts.board.dao.BoardDAO;
 import struts.board.form.BoardForm;
 import struts.board.form.FileForm;
 import struts.util.FileManger;
@@ -51,7 +51,7 @@ public class BoardUpdateAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 					throws Exception{
 		Connection conn = PostgresqlConnector.getConnection();
-		BoardUpdateDAO dao = new BoardUpdateDAO(conn);
+		BoardDAO dao = new BoardDAO(conn);
 		
 		boolean validate = dao.validatePassword(param);
 		
@@ -73,7 +73,7 @@ public class BoardUpdateAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception{
 		Connection conn = PostgresqlConnector.getConnection();
-		BoardUpdateDAO dao = new BoardUpdateDAO(conn);
+		BoardDAO dao = new BoardDAO(conn);
 		FileForm file = new FileForm();
 		
 		int boardNo = param.getBoardNo();
@@ -96,18 +96,18 @@ public class BoardUpdateAction extends DispatchAction {
 	
 	private ActionForward updatePost(BoardForm param) throws Exception{
 		Connection conn = PostgresqlConnector.getConnection();
-		BoardUpdateDAO dao = new BoardUpdateDAO(conn);
-		int fileNo = -1;
+		BoardDAO dao = new BoardDAO(conn);
+		int fileNo = param.getFileNo();
 		
 		FormFile imageFile = param.getImage(); 
 		
 		 if (imageFile != null && !imageFile.getFileName().isEmpty()) {
-	        	Map<String, String> imageInfo = null;
-	        	String filePath = getServlet().getServletContext().getRealPath("/") + "uploads";
-	        	
-	        	imageInfo = FileManger.upload(imageFile, filePath);
-	        	fileNo = dao.insertFile(imageInfo);
-	        }
+		    	Map<String, String> imageInfo = null;
+		    	String filePath = getServlet().getServletContext().getRealPath("/") + "uploads";
+		    	
+		    	imageInfo = FileManger.upload(imageFile, filePath);
+		    	fileNo = dao.insertFile(imageInfo);
+		 }
 		
 		dao.updatePost(param, fileNo);
 		

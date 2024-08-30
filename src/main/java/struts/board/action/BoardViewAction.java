@@ -10,7 +10,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import struts.board.dao.BoardViewDAO;
+import struts.board.dao.BoardDAO;
 import struts.board.form.BoardForm;
 import struts.board.form.FileForm;
 import struts.util.PostgresqlConnector;
@@ -22,7 +22,7 @@ public class BoardViewAction extends Action {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		Connection conn = PostgresqlConnector.getConnection();
-		BoardViewDAO dao = new BoardViewDAO(conn);
+		BoardDAO dao = new BoardDAO(conn);
 		int boardNo = Integer.parseInt(request.getParameter("post"));
 		FileForm file = new FileForm();
 		

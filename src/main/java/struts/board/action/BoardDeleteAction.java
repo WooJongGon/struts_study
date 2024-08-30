@@ -13,7 +13,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
-import struts.board.dao.BoardDeleteDAO;
+import struts.board.dao.BoardDAO;
 import struts.board.form.BoardForm;
 import struts.util.PostgresqlConnector;
 
@@ -30,7 +30,7 @@ public class BoardDeleteAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response)
 					throws Exception{
 		Connection conn = PostgresqlConnector.getConnection();
-		BoardDeleteDAO dao = new BoardDeleteDAO(conn);
+		BoardDAO dao = new BoardDAO(conn);
 		
 		BoardForm param = (BoardForm)form;
 		int boardNo = param.getBoardNo();
@@ -64,7 +64,7 @@ public class BoardDeleteAction extends DispatchAction {
 									HttpServletResponse response, ActionMapping mapping) 
 									throws Exception{
 		Connection conn = PostgresqlConnector.getConnection();
-		BoardDeleteDAO dao = new BoardDeleteDAO(conn);
+		BoardDAO dao = new BoardDAO(conn);
 		
 		dao.deletePost(boardNo);
 		

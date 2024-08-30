@@ -11,7 +11,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import struts.board.dao.BoardListDAO;
+import struts.board.dao.BoardDAO;
 import struts.board.form.BoardForm;
 import struts.util.PostgresqlConnector;
 
@@ -40,7 +40,7 @@ public class BoardListAction extends Action {
 		}
 		
 		Connection conn = PostgresqlConnector.getConnection();
-		BoardListDAO dao = new BoardListDAO(conn);
+		BoardDAO dao = new BoardDAO(conn);
 		
 		List<BoardForm> lists = dao.getLists(page, pageSize, searchTitle);
 		totalRows = dao.pagination(pageSize, searchTitle);
