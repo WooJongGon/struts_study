@@ -69,6 +69,8 @@ public class BoardWriteAction extends DispatchAction {
 		
 		PostgresqlConnector.close();
 		
+		System.out.println("게시글 작성 성공 >> 게시글 번호: " + boardNo);
+		
 		ActionForward forward = new ActionForward();
         forward.setRedirect(true);
         forward.setPath("/board/view.do?post=" + boardNo);

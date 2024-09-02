@@ -50,8 +50,10 @@ public class BoardDeleteAction extends DispatchAction {
 		PostgresqlConnector.close();
 		
 		if(validate) {
+			System.out.println("패스워드 인증 성공 >> 게시글 번호: " + param.getBoardNo());
             return deletePost(param, request, response, mapping);
 		}else {
+			System.out.println("패스워드 인증 실패 >> 게시글 번호: " + param.getBoardNo());
 			response.setContentType("text/html; charset=UTF-8");
 		    PrintWriter out = response.getWriter();
 		    out.println("<script>alert('비밀번호가 틀렸습니다.'); history.go(-1);</script>");
@@ -93,7 +95,8 @@ public class BoardDeleteAction extends DispatchAction {
 		if(session.getAttribute("title") != null) {
 			title = (String)session.getAttribute("title");
 		}
-		System.out.println(page + title);
+		
+		System.out.println("게시글 삭제됨 >> 게시글 번호: " + param.getBoardNo());
 		
 		String encodedTitle = URLEncoder.encode(title, "UTF-8");
 	

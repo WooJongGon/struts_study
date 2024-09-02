@@ -66,6 +66,8 @@ public class BoardListAction extends Action {
 			end = totalPages;
 		}
 		
+		System.out.println("현재 페이지 >> " + page);
+		
 		request.setAttribute("pageName", "게시글 목록");
 		request.setAttribute("lists", lists);
 		request.setAttribute("currentPage", page);

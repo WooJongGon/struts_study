@@ -14,8 +14,6 @@ request.getContextPath(); %>
 				var isSubmit = false;
 				
 				function updatePost() {
-					event.preventDefault();
-					
 					if (isSubmit) {
 						return;
 					} else {
@@ -48,8 +46,6 @@ request.getContextPath(); %>
 				}
 
 				function deletePost() {
-					event.preventDefault();
-					
 					if (isSubmit) {
 						return;
 					} else {
@@ -147,7 +143,7 @@ ${item.content}</textarea
 									수정
 								</button>
 								<button
-									type="button"S
+									type="button"
 									value="목록으로"
 									class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect"
 									onclick="javascript:location.href='<%=cp%>/board.do'">

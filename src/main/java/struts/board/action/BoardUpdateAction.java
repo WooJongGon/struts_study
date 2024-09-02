@@ -58,8 +58,10 @@ public class BoardUpdateAction extends DispatchAction {
 		PostgresqlConnector.close();
 		
 		if(validate) {
+			System.out.println("패스워드 인증 성공 >> 게시글 번호: " + param.getBoardNo());
 			return viewPost(mapping, param, request, response);
 		}else {
+			System.out.println("패스워드 인증 실패 >> 게시글 번호: " + param.getBoardNo());
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>alert('비밀번호가 틀렸습니다.'); history.go(-1);</script>");
@@ -99,8 +101,6 @@ public class BoardUpdateAction extends DispatchAction {
 		BoardDAO dao = new BoardDAO(conn);
 		int fileNo = param.getFileNo();
 		int oldFileNo = dao.checkFile(param.getBoardNo());
-		System.out.println(fileNo);
-		System.out.println(oldFileNo);
 		
 		FormFile imageFile = param.getImage(); 
 		
@@ -124,6 +124,8 @@ public class BoardUpdateAction extends DispatchAction {
 		dao.updatePost(param, fileNo);
 		
 		PostgresqlConnector.close();
+		
+		System.out.println("게시글 수정됨 >> 게시글 번호: " + param.getBoardNo());
 		
 		ActionForward forward = new ActionForward();
         forward.setRedirect(true);

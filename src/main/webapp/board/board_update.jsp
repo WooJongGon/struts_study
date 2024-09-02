@@ -17,7 +17,6 @@
 				var isSubmit = false;
 				
 				function updatePost() {
-					event.preventDefault();
 					
 					if (isSubmit) {
 						return false;
@@ -55,7 +54,6 @@
 				}
 				
 				function deleteImage() {
-					event.preventDefault();
 					let postImage = document.getElementById("postImage"); 
 					postImage.remove();
 					
@@ -155,6 +153,7 @@ ${item.content}</textarea
 						<div class="mdl-grid">
 							<div class="mdl-cell mdl-cell--3-col mdl-cell--4-offset">
 								<button
+									type="button"
 									value="저장"
 									class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect"
 									onclick="updatePost()">

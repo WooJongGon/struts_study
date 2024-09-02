@@ -79,7 +79,7 @@
 				<div class="mdl-cell mdl-cell--2-col mdl-cell--6-offset">
 					<button
 						class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect"
-						onclick="javascript:location.href='<%=cp%>/board/write.do';">
+						type="button" onclick="javascript:location.href='<%=cp%>/board/write.do';">
 						글쓰기
 					</button>
 				</div>
