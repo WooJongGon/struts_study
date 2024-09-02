@@ -10,6 +10,8 @@ request.getContextPath(); %>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/material.min.css" />
 		<script src="${pageContext.request.contextPath}/resource/js/material.min.js"></script>
 		<script type="text/javascript">
+			var isSubmit = false;
+			
 			function savePost() {
 				event.preventDefault();
 
@@ -33,15 +35,21 @@ request.getContextPath(); %>
 					alert("본문을 입력해주세요.");
 					return;
 				}
-
-				let modeInput = document.createElement("input");
-				modeInput.type = "hidden";
-				modeInput.name = "mode";
-				modeInput.value = "I";
-				form.appendChild(modeInput);
-
-				document.body.appendChild(form);
-				form.submit();
+				
+				if (isSubmit) {
+					return;
+				} else {
+					isSubmit = true;
+					
+					let modeInput = document.createElement("input");
+					modeInput.type = "hidden";
+					modeInput.name = "mode";
+					modeInput.value = "I";
+					form.appendChild(modeInput);
+	
+					document.body.appendChild(form);
+					form.submit();
+				}
 			}
 		</script>
 	</head>

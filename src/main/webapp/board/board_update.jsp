@@ -14,36 +14,44 @@
 		<script src="${pageContext.request.contextPath}/resource/js/material.min.js"></script>
 		<script type="text/javascript">
 			document.addEventListener("DOMContentLoaded", (event) => {
+				var isSubmit = false;
+				
 				function updatePost() {
 					event.preventDefault();
-
-					let form = document.getElementById("postForm");
-					form.method = "POST";
-					form.action = "<%=cp%>/board/update.do";
-
-					if (form.title.value.trim() === "") {
-						alert("제목을 입력해주세요.");
-						return;
-					}
-					if (form.content.value.trim() === "") {
-						alert("본문을 입력해주세요.");
-						return;
-					}
 					
-					let boardNoInput = document.createElement("input");
-					boardNoInput.type = "hidden";
-					boardNoInput.name = "boardNo";
-					boardNoInput.value = "${item.boardNo}";
-					form.appendChild(boardNoInput);
-
-					let modeInput = document.createElement("input");
-					modeInput.type = "hidden";
-					modeInput.name = "mode";
-					modeInput.value = "U";
-					form.appendChild(modeInput);
-
-					document.body.appendChild(form);
-					form.submit();
+					if (isSubmit) {
+						return false;
+					} else {
+						isSubmit = true;
+						
+						let form = document.getElementById("postForm");
+						form.method = "POST";
+						form.action = "<%=cp%>/board/update.do";
+	
+						if (form.title.value.trim() === "") {
+							alert("제목을 입력해주세요.");
+							return;
+						}
+						if (form.content.value.trim() === "") {
+							alert("본문을 입력해주세요.");
+							return;
+						}
+						
+						let boardNoInput = document.createElement("input");
+						boardNoInput.type = "hidden";
+						boardNoInput.name = "boardNo";
+						boardNoInput.value = "${item.boardNo}";
+						form.appendChild(boardNoInput);
+	
+						let modeInput = document.createElement("input");
+						modeInput.type = "hidden";
+						modeInput.name = "mode";
+						modeInput.value = "U";
+						form.appendChild(modeInput);
+	
+						document.body.appendChild(form);
+						form.submit();
+					}
 				}
 				
 				function deleteImage() {

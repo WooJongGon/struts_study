@@ -11,62 +11,73 @@ request.getContextPath(); %>
 		<script src="${pageContext.request.contextPath}/resource/js/material.min.js"></script>
 		<script type="text/javascript">
 			document.addEventListener("DOMContentLoaded", (event) => {
+				var isSubmit = false;
+				
 				function updatePost() {
 					event.preventDefault();
+					
+					if (isSubmit) {
+						return;
+					} else {
+						let form = document.createElement("form");
+						form.method = "POST";
+						form.action = "<%=cp%>/board/update.do";
 
-					let form = document.createElement("form");
-					form.method = "POST";
-					form.action = "<%=cp%>/board/update.do";
+						let pwdInput = document.createElement("input");
+						pwdInput.type = "hidden";
+						pwdInput.name = "pwd";
+						pwdInput.value = prompt("비밀번호를 입력해주세요", "");
+						form.appendChild(pwdInput);
 
-					let pwdInput = document.createElement("input");
-					pwdInput.type = "hidden";
-					pwdInput.name = "pwd";
-					pwdInput.value = prompt("비밀번호를 입력해주세요", "");
-					form.appendChild(pwdInput);
+						let boardNoInput = document.createElement("input");
+						boardNoInput.type = "hidden";
+						boardNoInput.name = "boardNo";
+						boardNoInput.value = "${item.boardNo}";
+						form.appendChild(boardNoInput);
 
-					let boardNoInput = document.createElement("input");
-					boardNoInput.type = "hidden";
-					boardNoInput.name = "boardNo";
-					boardNoInput.value = "${item.boardNo}";
-					form.appendChild(boardNoInput);
+						let modeInput = document.createElement("input");
+						modeInput.type = "hidden";
+						modeInput.name = "mode";
+						modeInput.value = "R";
+						form.appendChild(modeInput);
 
-					let modeInput = document.createElement("input");
-					modeInput.type = "hidden";
-					modeInput.name = "mode";
-					modeInput.value = "R";
-					form.appendChild(modeInput);
-
-					document.body.appendChild(form);
-					form.submit();
+						document.body.appendChild(form);
+						form.submit();
+					}
+					
 				}
 
 				function deletePost() {
 					event.preventDefault();
-
-					let form = document.createElement("form");
-					form.method = "POST";
-					form.action = "<%=cp%>/board/delete.do";
-
-					let pwdInput = document.createElement("input");
-					pwdInput.type = "hidden";
-					pwdInput.name = "pwd";
-					pwdInput.value = prompt("비밀번호를 입력해주세요", "");
-					form.appendChild(pwdInput);
-
-					let boardNoInput = document.createElement("input");
-					boardNoInput.type = "hidden";
-					boardNoInput.name = "boardNo";
-					boardNoInput.value = "${item.boardNo}";
-					form.appendChild(boardNoInput);
 					
-					let fileNoInput = document.createElement("input");
-					fileNoInput.type = "hidden";
-					fileNoInput.name = "fileNo";
-					fileNoInput.value = "${file.fileNo}";
-					form.appendChild(fileNoInput);
-
-					document.body.appendChild(form);
-					form.submit();
+					if (isSubmit) {
+						return;
+					} else {
+						let form = document.createElement("form");
+						form.method = "POST";
+						form.action = "<%=cp%>/board/delete.do";
+	
+						let pwdInput = document.createElement("input");
+						pwdInput.type = "hidden";
+						pwdInput.name = "pwd";
+						pwdInput.value = prompt("비밀번호를 입력해주세요", "");
+						form.appendChild(pwdInput);
+	
+						let boardNoInput = document.createElement("input");
+						boardNoInput.type = "hidden";
+						boardNoInput.name = "boardNo";
+						boardNoInput.value = "${item.boardNo}";
+						form.appendChild(boardNoInput);
+						
+						let fileNoInput = document.createElement("input");
+						fileNoInput.type = "hidden";
+						fileNoInput.name = "fileNo";
+						fileNoInput.value = "${file.fileNo}";
+						form.appendChild(fileNoInput);
+	
+						document.body.appendChild(form);
+						form.submit();
+					}
 				}
 
 				document.querySelector('button[value="수정"]').addEventListener("click", updatePost);
